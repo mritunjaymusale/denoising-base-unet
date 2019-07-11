@@ -1,12 +1,11 @@
 from torchvision.datasets import CIFAR10
 from torch.utils.data import DataLoader 
-from DownBlock import DownBlock
-from TransitionBlock import TransitionBlock
+from BaseUNet import BaseUNet
 import torch
 from torchvision import transforms
 
 
-model = TransitionBlock(3,8)
+model = BaseUNet(3,3)
 model.cuda()
 
 
