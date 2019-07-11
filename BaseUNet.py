@@ -2,7 +2,7 @@ import torch
 from torch import nn
 from TransitionBlock import TransitionBlock
 from DownBlock import DownBlock
-
+from DenseBlock import DenseBlock
 
 class BaseUNet(nn.Module):
     def __init__(self, input_channels, output_channels):
@@ -14,6 +14,7 @@ class BaseUNet(nn.Module):
         self.down4 = DownBlock(64, 96)
         self.down5 = DownBlock(96, 128)
         self.trans2 = TransitionBlock(128, 256)
+        self.dense = DenseBlock(256,32)
 
     def forward(self, x):
         x = self.trans1(x)
@@ -23,4 +24,5 @@ class BaseUNet(nn.Module):
         x = self.down4(x)
         x = self.down5(x)
         x = self.trans2(x)
+        x = self.dense(x)
         return x
