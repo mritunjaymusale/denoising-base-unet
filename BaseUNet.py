@@ -23,7 +23,7 @@ class BaseUNet(nn.Module):
         self.up3 = UpBlock(64+64, 32)
         self.up4 = UpBlock(32+32, 16)
         self.up5 = UpBlock(16+16, 16)
-        self.conv_last = nn.Conv2d(16,output_channels,3)
+        self.conv_last = nn.Conv2d(16,output_channels,1,1)
 
     def forward(self, x):
         x = self.trans1(x)
