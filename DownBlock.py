@@ -8,7 +8,7 @@ class DownBlock(nn.Module):
         self.conv1 = nn.Conv2d(input_channels, 64, 3, 1, 1, 1)
         self.conv2 = nn.Conv2d(input_channels, 64, 3, 1, 3, 3)
         self.conv3 = nn.Conv2d(input_channels, 64, 3, 1, 5, 5)
-        self.conv4 = nn.Conv2d(64+64+64, output_channels,3)
+        self.conv4 = nn.Conv2d(64+64+64, output_channels,3,2,1)
         self.conv5 = nn.Conv2d(output_channels, output_channels, 1, 1)
         self.batch_norm = nn.BatchNorm2d(num_features=output_channels)
         self.relu = nn.ReLU()
