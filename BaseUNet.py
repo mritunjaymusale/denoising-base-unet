@@ -14,7 +14,7 @@ class BaseUNet(nn.Module):
         self.down4 = DownBlock(64, 96)
         self.down5 = DownBlock(96, 128)
         self.trans2 = TransitionBlock(128, 256)
-        self.dense = DenseBlock(256,32)
+        self.dense = DenseBlock(256,128)
 
     def forward(self, x):
         x = self.trans1(x)
