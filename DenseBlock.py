@@ -5,24 +5,38 @@ from torch import nn
 class DenseBlock(nn.Module):
     def __init__(self, input_channels, output_channels):
         super(DenseBlock, self).__init__()
-        self.conv1 = nn.Conv2d(input_channels, 12, 3, 1, 1)
+        growth_rate = 12
+        self.conv1 = nn.Conv2d(input_channels, growth_rate, 3, 1, 1)
         self.batch_norm = nn.BatchNorm2d(num_features=12)
-        self.conv2 = nn.Conv2d(input_channels+12, 12, 3, 1, 1)
-        self.conv3 = nn.Conv2d(input_channels+12+12, output_channels, 3, 1, 1)
+        self.conv2 = nn.Conv2d(
+            input_channels+growth_rate, growth_rate, 3, 1, 1)
+        self.conv3 = nn.Conv2d(
+            input_channels+growth_rate+growth_rate, output_channels, 3, 1, 1)
         self.batch_norm3 = nn.BatchNorm2d(num_features=output_channels)
         self.relu = nn.ReLU()
 
-
     def forward(self, x):
-        x_conv1 = self.conv1(x)
-        x_batch_norm1 = self.batch_norm(x_conv1)
-        x_batch_norm1 = self.relu(x_batch_norm1)
-        x_temp = torch.cat([x, x_batch_norm1], dim=1)
-        x_conv2 = self.conv2(x_temp)
-        x_batch_norm2 = self.batch_norm(x_conv2)
-        x_batch_norm2 = self.relu(x_batch_norm2)
-        x_temp = torch.cat([x, x_batch_norm1, x_batch_norm2], dim=1)
-        x_conv3 = self.conv3(x_temp)
-        x_batch_norm3 = self.batch_norm3(x_conv3)
-        x_batch_norm3 = self.relu(x_batch_norm3)
-        return x_batch_norm3
+        x_first_conv = self.first_convBlock(x)
+        x_temp = torch.cat([x, x_first_conv], dim=1)
+        x_second_conv = self.second_convBlock(x_temp)
+        x_temp = torch.cat([x, x_first_conv, x_second_conv], dim=1)
+        x_third_conv = self.third_convBlock(x_temp)
+        return x_third_conv
+
+    def first_convBlock(self, x):
+        x = self.conv1(x)
+        x = self.batch_norm(x)
+        x = self.relu(x)
+        return x
+
+    def second_convBlock(self, x):
+        x = self.conv2(x)
+        x = self.batch_norm(x)
+        x = self.relu(x)
+        return x
+
+    def third_convBlock(self, x):
+        x = self.conv3(x)
+        x = self.batch_norm3(x)
+        x = self.relu(x)
+        return x

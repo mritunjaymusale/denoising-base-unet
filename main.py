@@ -15,4 +15,4 @@ dataset= DataLoader(data,batch_size=3, shuffle=True)
 for img,_ in dataset:
     img= img.cuda()
     output=model(img)
-    
+    quit()

@@ -16,7 +16,7 @@ class BaseUNet(nn.Module):
         self.down4 = DownBlock(64, 96)
         self.down5 = DownBlock(96, 128)
         self.trans2 = TransitionBlock(128, 256)
-        # dense block channels are confusing in the paper don't know how the Upblock expects 256 when dense and down5 combined are 160
+        # dense block channels are confusing in the paper don't know how the Upblock expects 256 when dense and down5 combined are 160, so we used 256 
         self.dense = DenseBlock(256, 256)
         self.up1 = UpBlock(256+128, 96)
         self.up2 = UpBlock(96+96, 64)

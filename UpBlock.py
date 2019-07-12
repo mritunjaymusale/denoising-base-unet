@@ -19,12 +19,24 @@ class UpBlock(nn.Module):
         self.relu = nn.ReLU()
 
     def forward(self, x):
+        x = self.first_conv_block(x)
+        x = self.upsampling(x)
+        x = self.second_conv_block(x)
+        return x
+
+    def first_conv_block(self, x):
         x = self.conv1(x)
         x = self.relu(x)
-        x = self.upsample(x)
-        x = self.conv_compensate(x)
-        x = self.relu(x)
+        return x
+
+    def second_conv_block(self, x):
         x = self.conv2(x)
         x = self.batch_norm(x)
+        x = self.relu(x)
+        return x
+
+    def upsampling(self, x):
+        x = self.upsample(x)
+        x = self.conv_compensate(x)
         x = self.relu(x)
         return x
