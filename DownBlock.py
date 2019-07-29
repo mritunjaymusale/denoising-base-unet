@@ -5,8 +5,8 @@ from torch import nn
 class DownBlock(nn.Module):
     def __init__(self, input_channels, output_channels):
         super(DownBlock, self).__init__()
-        # the 32 channels allocated to each layer is our own assumption
-        internal_channels = 32
+        
+        internal_channels = int((input_channels+output_channels)/2)
         self.conv1 = nn.Conv2d(input_channels, internal_channels, 3, 1, 1, 1)
         self.conv2 = nn.Conv2d(input_channels, internal_channels, 3, 1, 3, 3)
         self.conv3 = nn.Conv2d(input_channels, internal_channels, 3, 1, 5, 5)

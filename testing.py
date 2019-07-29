@@ -20,6 +20,8 @@ model.load_state_dict(torch.load( './saved_model/cifar10_base_unet.pth'))
 data = CIFAR10('./data', download=True, transform=utils.to_32_32_transform(),train=False)
 dataset = DataLoader(data, batch_size=batch_size, shuffle=True)
 
+
+
 avg_psnr = 0
 for img, _ in dataset:
     img = img.cuda()
@@ -29,7 +31,6 @@ for img, _ in dataset:
     MSE_loss = nn.MSELoss()(output, img)
     psnr = 10 * log10(1 / MSE_loss.data)
     avg_psnr += psnr
-
 print('MSE_loss:{:.4f}'.format(MSE_loss.data))
 print("Avg. PSNR: {:.4f} dB".format(avg_psnr / len(dataset)))
 ground_truth,noise,unet_output=utils._to_img(img,noise_img,output)

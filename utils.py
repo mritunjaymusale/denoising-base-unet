@@ -1,9 +1,9 @@
 import os
 from torchvision.utils import save_image
 from torchvision import transforms
-
+import torch
 def to_img(x):
-    x = x.view(x.size(0), 3, 32, 32)
+    x = x.view(x.size(0), x.size(1), 32, 32)
     return x
 
 

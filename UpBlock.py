@@ -5,7 +5,7 @@ from torch import nn
 class UpBlock(nn.Module):
     def __init__(self, input_channels, output_channels):
         super(UpBlock, self).__init__()
-        internal_channels = 32
+        internal_channels = int((input_channels+output_channels)/2)
         kernel_size = 7
         self.conv1 = nn.Conv2d(input_channels, internal_channels, 3, 1, 1)
         # ConvTranspose2d replaced with Upsample since noise reduction
