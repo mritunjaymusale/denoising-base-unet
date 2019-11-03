@@ -13,6 +13,7 @@ class DownBlock(nn.Module):
         self.conv4 = nn.Conv2d(
             internal_channels+internal_channels+internal_channels, output_channels, 3, 2, 1)
         self.conv5 = nn.Conv2d(output_channels, output_channels, 1, 1)
+        self.batch_norm = nn.BatchNorm2d(num_features=output_channels)	
         self.relu = nn.ReLU()
 
     def forward(self, x):
@@ -46,5 +47,6 @@ class DownBlock(nn.Module):
 
     def fifth_conv_block(self, x):
         x = self.conv5(x)
+        x = self.batch_norm(x)
         x = self.relu(x)
         return x

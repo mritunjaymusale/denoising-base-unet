@@ -15,6 +15,7 @@ class UpBlock(nn.Module):
         self.conv_compensate = nn.Conv2d(
             internal_channels, output_channels, 3, 1, 1)
         self.conv2 = nn.Conv2d(output_channels, output_channels, 3, 1, 1)
+        self.batch_norm = nn.BatchNorm2d(num_features=output_channels)
         self.relu = nn.ReLU()
 
     def forward(self, x):
@@ -30,6 +31,7 @@ class UpBlock(nn.Module):
 
     def second_conv_block(self, x):
         x = self.conv2(x)
+        x = self.batch_norm(x)
         x = self.relu(x)
         return x
 

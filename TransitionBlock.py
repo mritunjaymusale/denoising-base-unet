@@ -17,6 +17,7 @@ class TransitionBlock(nn.Module):
         self.conv42 = nn.Conv2d(output_channels, output_channels, 5, 1, 2)
         self.convf = nn.Conv2d(output_channels+output_channels +
                                output_channels+output_channels, output_channels, 3, 1, 1)
+        self.batch_norm = nn.BatchNorm2d(num_features=output_channels)
         self.relu = nn.ReLU()
 
     def forward(self, x):
@@ -30,6 +31,7 @@ class TransitionBlock(nn.Module):
 
     def conv_f_block(self, x):
         x = self.convf(x)
+        x = self.batch_norm(x)
         x = self.relu(x)
         return x
 
