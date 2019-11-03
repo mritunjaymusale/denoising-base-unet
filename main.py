@@ -3,7 +3,6 @@ from torch.utils.data import DataLoader
 from BaseUNet import BaseUNet
 import torch
 from torch import nn
-from math import log10
 import utils
 
 torch.manual_seed(0000)
@@ -42,7 +41,7 @@ for epoch in range(num_epochs):
         mse_loss =MSE_loss(output, img)
         
         # PSNR
-        psnr = 10 * log10(1 / mse_loss.data)
+        psnr = 10 * torch.log10(1 / mse_loss.data)
         avg_psnr += psnr
         
         # update gradients
