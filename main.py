@@ -26,9 +26,6 @@ data = CIFAR10('./data', download=True,
 dataset = DataLoader(data, batch_size=batch_size,
                      shuffle=True, num_workers=2, pin_memory=True)
 
-std = 1.
-mean = 0.
-noise_tensor = torch.randn([ 3, 32, 32]) * std + mean
 for epoch in range(num_epochs):
     avg_psnr = 0
     for img, _ in dataset:

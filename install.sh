@@ -1,2 +1,2 @@
-pip3 install piq 
+pip3 install piq pytorch-lightning
 

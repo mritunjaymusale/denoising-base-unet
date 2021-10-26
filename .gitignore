@@ -108,3 +108,5 @@ data
 result_images
 runs
 saved_model
+
+lightning_logs
