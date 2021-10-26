@@ -50,4 +50,5 @@ class BaseUNet(nn.Module):
         x = torch.cat([x, down1], dim=1)
         x = self.up5(x)
         x= self.conv_last(x)
+        x = x.sigmoid() * 255
         return x
