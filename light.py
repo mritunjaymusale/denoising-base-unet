@@ -1,16 +1,13 @@
-
 import torch
-from torch import nn
 from torch.nn import functional as F
 from torch.utils.data import DataLoader
-from torch.utils.data import random_split
-from torchvision.datasets import MNIST
-from torchvision import transforms
 import pytorch_lightning as pl
 from BaseUNet import BaseUNet
 import utils
 from torchvision.datasets import CIFAR10
 import piq
+
+pl.utilities.seed.seed_everything(seed=0000, workers=True)
 
 class MyModel(pl.LightningModule):
     def __init__(self):
@@ -19,8 +16,9 @@ class MyModel(pl.LightningModule):
         self.model = BaseUNet(3,3)
 
     def forward(self, x):
-        
-
+        noise = torch.empty_like(x)
+        noise.normal_(0, 0.1)
+        noise_img = x +noise
         # model datafeed
         output = self.model(noise_img)
         return output
@@ -69,6 +67,7 @@ class MyModel(pl.LightningModule):
         loss = F.mse_loss(output,img)
         self.log('PSNR', psnr.mean().item())
         self.log('val_loss', loss)
+        return loss
         
 
 batch_size = 256
@@ -76,12 +75,12 @@ batch_size = 256
 train_data = CIFAR10('./data', download=True,
                transform=utils.to_32_32_transform(), train=True)
 train_loader = DataLoader(train_data, batch_size=batch_size,
-                     shuffle=True, num_workers=2, pin_memory=True)
+                     shuffle=True, num_workers=2, pin_memory=False)
 
 val_data = CIFAR10('./data', download=True,
                transform=utils.to_32_32_transform(), train=False)
 val_loader = DataLoader(val_data, batch_size=batch_size,
-                     shuffle=True, num_workers=2, pin_memory=True)
+                     shuffle=True, num_workers=2, pin_memory=False)
 
 
 
