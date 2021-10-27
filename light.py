@@ -16,11 +16,9 @@ class MyModel(pl.LightningModule):
         self.model = BaseUNet(3,3)
 
     def forward(self, x):
-        noise = torch.empty_like(x)
-        noise.normal_(0, 0.1)
-        noise_img = x +noise
+        
         # model datafeed
-        output = self.model(noise_img)
+        output = self.model(x)
         return output
         
 
